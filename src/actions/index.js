@@ -1,5 +1,8 @@
+import {v4} from "uuid";
+
 export const actionAddTodo = (text) => ({
     type: 'ADD_TODO',
+    id: v4(),
     text
 });
 

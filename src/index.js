@@ -4,6 +4,8 @@ import {createStore} from "redux";
 import {Provider} from "react-redux";
 import todoApp from './reducers';
 import App from './components/App';
+import {loadState, saveState} from './model/localStorage';
+import throttle from "lodash/throttle";
 
 
 // functional components haben keinen eigenen Zustand und bestehen nur aus einer Funktion
@@ -24,7 +26,10 @@ import App from './components/App';
 // Store mit Support für Chrome Dev Tools
 
 
-const store = createStore(todoApp, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const loadedState = loadState();
+
+console.log(loadedState);
+const store = createStore(todoApp, loadedState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 // Hauptkomponente rendern, Zustand aus Store ziehen
 
@@ -38,5 +43,8 @@ render(
 );
 
 // bei Änderungen des Store => neu rendern.
-// store.subscribe(render);
-// render();
+store.subscribe(throttle(() => {
+    saveState({
+        todos: store.getState().todos
+    });
+}, 1000));
