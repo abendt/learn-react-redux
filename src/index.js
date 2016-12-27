@@ -1,10 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import {render} from "react-dom";
 import {createStore} from "redux";
-import "./index.css";
-
 import {Provider} from "react-redux";
-
 import todoApp from './reducers';
 import App from './components/App';
 
@@ -31,17 +28,15 @@ const store = createStore(todoApp, window.__REDUX_DEVTOOLS_EXTENSION__ && window
 
 // Hauptkomponente rendern, Zustand aus Store ziehen
 
-const render = () => {
-    ReactDOM.render(
-        <Provider store={store}>
-            <App
-                {...store.getState()}
-            />
-        </Provider>,
-        document.getElementById('root')
-    )
-};
+render(
+    <Provider store={store}>
+        <App
+            {...store.getState()}
+        />
+    </Provider>,
+    document.getElementById('root')
+);
 
 // bei Änderungen des Store => neu rendern.
-store.subscribe(render);
-render();
+// store.subscribe(render);
+// render();
