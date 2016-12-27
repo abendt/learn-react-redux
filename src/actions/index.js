@@ -1,8 +1,5 @@
-let nextToDoId = 0;
-
 export const actionAddTodo = (text) => ({
     type: 'ADD_TODO',
-    id: nextToDoId++,
     text
 });
 

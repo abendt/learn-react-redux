@@ -1,8 +1,11 @@
-const todo = (state = {}, action) => {
+const maxId = (todos) =>
+    Math.max(-1, ...todos.map( (t) => t.id ));
+
+const todo = (todos, state = {}, action) => {
     switch (action.type) {
         case 'ADD_TODO':
             return {
-                id: action.id,
+                id: maxId(todos) + 1,
                 text: action.text,
                 completed: false
             };
@@ -27,12 +30,12 @@ const todos = (state = [], action) => {
         case 'ADD_TODO':
             return [
                 ...state,
-                todo(undefined, action)
+                todo(state, undefined, action)
             ];
 
         case 'TOGGLE_TODO':
             return state.map(
-                t => todo(t, action)
+                t => todo(state, t, action)
             );
 
         default:
