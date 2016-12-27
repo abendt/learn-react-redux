@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 import {Provider} from "react-redux";
 import App from "./App";
-import {Router, Route} from 'react-router';
-import { browserHistory } from 'react-router'
-
+import {Router, Route, browserHistory} from "react-router";
 
 const Root = ({store}) => (
     <Provider store={store}>

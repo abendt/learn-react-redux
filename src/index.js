@@ -1,5 +1,4 @@
 import React from "react";
-
 import {render} from "react-dom";
 import Root from "./components/Root";
 import configureStore from "./model/configureStore";
