@@ -1,12 +1,8 @@
 import React from "react";
-import {render} from "react-dom";
-import {createStore} from "redux";
-import {Provider} from "react-redux";
-import todoApp from './reducers';
-import App from './components/App';
-import {loadState, saveState} from './model/localStorage';
-import throttle from "lodash/throttle";
 
+import {render} from "react-dom";
+import Root from "./components/Root";
+import configureStore from "./model/configureStore";
 
 // functional components haben keinen eigenen Zustand und bestehen nur aus einer Funktion
 
@@ -23,28 +19,12 @@ import throttle from "lodash/throttle";
 // container component schlagen die Brücke zum Redux Dispatcher
 
 
-// Store mit Support für Chrome Dev Tools
-
-
-const loadedState = loadState();
-
-console.log(loadedState);
-const store = createStore(todoApp, loadedState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-
 // Hauptkomponente rendern, Zustand aus Store ziehen
 
+const store = configureStore();
+
 render(
-    <Provider store={store}>
-        <App
-            {...store.getState()}
-        />
-    </Provider>,
+    <Root store={store} />,
     document.getElementById('root')
 );
 
-// bei Änderungen des Store => neu rendern.
-store.subscribe(throttle(() => {
-    saveState({
-        todos: store.getState().todos
-    });
-}, 1000));
