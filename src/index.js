@@ -91,6 +91,7 @@ const Link = ({active, children, onClick}) => {
 // sonst müsste der jeweilige Parent sich auch für Updates registrieren.
 // stellt Daten und Verhalten für Presentational Components zur Verfügung
 
+
 class FilterLink extends Component {
 
     componentDidMount() {
@@ -154,7 +155,9 @@ const TodoList = ({todos, onTodoClick}) => {
     );
 };
 
-const AddTodo = ({onAddTodo}) => {
+let nextToDoId = 0;
+
+let AddTodoComponent = ({dispatch}) => {
     let input;
 
     return (
@@ -162,7 +165,11 @@ const AddTodo = ({onAddTodo}) => {
             <InputGroupButton><Button onClick={() => {
                 if (input.value) {
 
-                    onAddTodo(input.value);
+                    dispatch({
+                        type: 'ADD_TODO',
+                        id: nextToDoId++,
+                        text: input.value
+                    });
 
                     input.value = '';
                 }
@@ -174,6 +181,18 @@ const AddTodo = ({onAddTodo}) => {
         </InputGroup>
     );
 };
+
+const AddTodo = connect(
+    state => {
+        return {};
+    },
+
+    dispatch => {
+        return {
+            dispatch
+        };
+    }
+)(AddTodoComponent);
 
 const Footer = () => {
     return (
@@ -248,17 +267,10 @@ VisibleTodoList.contextTypes = {
 
 // container component schlagen die Brücke zum Redux Dispatcher
 
-let nextToDoId = 0;
 
 const TodoApp = (props, {store}) => (
     <div>
-        <AddTodo onAddTodo={text =>
-            store.dispatch({
-                type: 'ADD_TODO',
-                id: nextToDoId++,
-                text
-            })}
-        />
+        <AddTodo />
 
         <VisibleTodoList />
 
