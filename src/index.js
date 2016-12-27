@@ -3,6 +3,13 @@ import ReactDOM from "react-dom";
 import {createStore, combineReducers} from "redux";
 import "./index.css";
 
+import {Provider} from "react-redux";
+
+import {Button, ButtonGroup, Input} from 'reactstrap';
+import {ListGroup, ListGroupItem} from 'reactstrap';
+import {InputGroup, InputGroupItem, InputGroupButton} from 'reactstrap';
+import {Container} from 'reactstrap';
+
 const {Component} = React;
 
 // Reducer Functions
@@ -64,9 +71,7 @@ const todoApp = combineReducers({
     visibilityFilter
 });
 
-// Store mit Support für Chrome Dev Tools
 
-const store = createStore(todoApp, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 // functional components haben keinen eigenen Zustand und bestehen nur aus einer Funktion
 
@@ -74,15 +79,11 @@ const store = createStore(todoApp, window.__REDUX_DEVTOOLS_EXTENSION__ && window
 // Daten kommen via prop rein. rausgehende Aktionen via event callback
 
 const Link = ({active, children, onClick}) => {
-    if (active) {
-        return <span>{children}</span>
-    }
-
     return (
-        <a href="#" onClick={e => {
-            e.preventDefault();
+        <Button color="primary" active={active}
+                href="#" onClick={() => {
             onClick();
-        }}>{children}</a>
+        }}>{children}</Button>
     );
 };
 
@@ -94,6 +95,7 @@ const Link = ({active, children, onClick}) => {
 class FilterLink extends Component {
 
     componentDidMount() {
+        const store = this.context.store;
         this.unsubscribe = store.subscribe(() => this.forceUpdate());
     }
 
@@ -103,6 +105,7 @@ class FilterLink extends Component {
 
     render() {
         const props = this.props;
+        const store = this.context.store;
         const state = store.getState();
 
         return (<Link active={props.filter === state.visibilityFilter}
@@ -115,92 +118,96 @@ class FilterLink extends Component {
     }
 }
 
+FilterLink.contextTypes = {
+    store: React.PropTypes.object
+};
+
 
 const Todo = ({text, completed, onClick}) => {
     return (
-        <li
-            onClick={() => onClick()}
+        <div>
+            <ListGroupItem
+                onClick={() => onClick()}
 
-            style={{
-                textDecoration: completed ? 'line-through' : 'none'
-            }}
-        >{text}</li>
+                style={{
+                    textDecoration: completed ? 'line-through' : 'none'
+                }}
+            >
+
+                <span className={`glyphicon ${completed ? 'glyphicon-star' : 'glyphicon-star-empty'}`}
+                      aria-hidden="true"/>
+
+                {text}
+            </ListGroupItem>
+        </div>
     );
 };
 
 const TodoList = ({todos, onTodoClick}) => {
     return (
-        <ul>
+        <ListGroup>
             {todos.map(todo =>
                 <Todo key={todo.id}
                       {...todo}
                       onClick={() => onTodoClick(todo.id)}/>)
             }
-        </ul>
+        </ListGroup>
     );
 };
-
-const getVisibleTodos = (todos, filter) => {
-    switch (filter) {
-        case 'SHOW_ALL':
-            return todos;
-
-        case 'SHOW_COMPLETED':
-            return todos.filter(t => t.completed);
-
-        case 'SHOW_ACTIVE':
-            return todos.filter(t => !t.completed);
-
-        default:
-            throw new Error(`filter ${filter} is unknown`);
-    }
-};
-
 
 const AddTodo = ({onAddTodo}) => {
     let input;
 
     return (
-        <div>
-            <input type="text" ref={node => {
-                input = node;
-            }}/>
-
-            <button onClick={() => {
+        <InputGroup>
+            <InputGroupButton><Button onClick={() => {
                 if (input.value) {
 
                     onAddTodo(input.value);
 
                     input.value = '';
                 }
-            }}>Add Todo
-            </button>
-        </div>
+            }}>Add Todo</Button></InputGroupButton>
+
+            <Input getRef={node => {
+                input = node;
+            }}/>
+        </InputGroup>
     );
 };
 
 const Footer = () => {
     return (
-        <p>
-            Show: {' '} <FilterLink
-            filter="SHOW_ALL"
-        >All</FilterLink>
+        <div className="panel panel-default">
+            <div className="panel-heading">Filter</div>
 
-            {' '} <FilterLink
-            filter="SHOW_ACTIVE"
-        >Active</FilterLink>
+            <div className="panel-body">
+                <ButtonGroup>
+                    <FilterLink
+                        filter="SHOW_ALL">
+                        All
+                    </FilterLink>{' '}
 
-            {' '} <FilterLink
-            filter="SHOW_COMPLETED"
-        >Completed</FilterLink>
+                    <FilterLink
+                        filter="SHOW_ACTIVE">
+                        Active
+                    </FilterLink>{' '}
 
-        </p>
+                    <FilterLink
+                        filter="SHOW_COMPLETED">
+                        Completed
+                    </FilterLink>
+
+                </ButtonGroup>
+            </div>
+        </div>
     );
 };
 
 class VisibleTodoList extends Component {
 
     componentDidMount() {
+        const store = this.context.store;
         this.unsubscribe = store.subscribe(() => this.forceUpdate());
     }
 
@@ -225,11 +232,11 @@ class VisibleTodoList extends Component {
     };
 
     render() {
-        const props = this.props;
+        const store = this.context.store;
         const state = store.getState();
 
         return (
-            <TodoList todos={getVisibleTodos(state.todos, state.visibilityFilter)}
+            <TodoList todos={this.getVisibleTodos(state.todos, state.visibilityFilter)}
 
                       onTodoClick={id =>
                           store.dispatch({
@@ -241,12 +248,16 @@ class VisibleTodoList extends Component {
     }
 }
 
+VisibleTodoList.contextTypes = {
+    store: React.PropTypes.object
+};
+
 
 // container component schlagen die Brücke zum Redux Dispatcher
 
 let nextToDoId = 0;
 
-const TodoApp = ({todos, visibilityFilter}) => (
+const TodoApp = (props, {store}) => (
     <div>
         <AddTodo onAddTodo={text =>
             store.dispatch({
@@ -262,14 +273,35 @@ const TodoApp = ({todos, visibilityFilter}) => (
     </div>
 );
 
+TodoApp.contextTypes = {
+    store: React.PropTypes.object
+};
+
+
+// Store mit Support für Chrome Dev Tools
+
+
+const store = createStore(todoApp, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 // Hauptkomponente rendern, Zustand aus Store ziehen
 
 const render = () => {
     ReactDOM.render(
-        <TodoApp
-            {...store.getState()}
-        />,
+        <Provider store={store}>
+            <Container>
+                <div className="page-header">
+                    <h1>React/Redux Todo Tutorial</h1>
+                </div>
+
+                <div className="panel panel-default">
+                    <div className="panel-body">
+                        <TodoApp
+                            {...store.getState()}
+                        />
+                    </div>
+                </div>
+            </Container>
+        </Provider>,
         document.getElementById('root')
     )
 };
