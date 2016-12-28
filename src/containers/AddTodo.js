@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {actionAddTodo} from '../actions';
-import FlatButton from 'material-ui/FlatButton';
+import Button from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 
@@ -10,7 +10,7 @@ let AddTodo = ({dispatch}) => {
 
     return (
         <Paper>
-            <FlatButton onClick={() => {
+            <Button onClick={() => {
                 if (input.value) {
 
                     dispatch(actionAddTodo(input.value));
@@ -19,7 +19,7 @@ let AddTodo = ({dispatch}) => {
 
                 }
             }}>Add Todo
-            </FlatButton>
+            </Button>
 
             <TextField id="addTodoText" type="text" ref={node => {
                 input = node.input;

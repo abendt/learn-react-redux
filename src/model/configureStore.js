@@ -4,6 +4,7 @@ import {createStore} from "redux";
 import todoApp from "../reducers";
 
 const configureStore = () => {
+    loadState();
     const loadedState = undefined;
 
     // Store mit Support für Chrome Dev Tools

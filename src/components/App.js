@@ -18,14 +18,14 @@ const muiTheme = getMuiTheme({
 });
 
 
-const App = ({store}) => (
+const App = ({params}) => (
     <MuiThemeProvider muiTheme={muiTheme}>
         <div style={styles.container}>
             <h1>React/Redux Todo Tutorial</h1>
 
             <AddTodo />
 
-            <VisibleTodoList />
+            <VisibleTodoList filter={params.filter || 'all' } />
 
             <Footer />
 
