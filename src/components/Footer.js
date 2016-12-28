@@ -1,32 +1,26 @@
 import React from 'react'
 
-import {ButtonGroup} from 'reactstrap';
 import FilterLink from '../containers/FilterLink';
+import Paper from 'material-ui/Paper';
 
 const Footer = () => (
-    <div className="panel panel-default">
-        <div className="panel-heading">Filter</div>
+    <Paper>
+        Filter: {' '}
+        <FilterLink
+            filter="all">
+            All
+        </FilterLink>{' '}
 
-        <div className="panel-body">
-            <ButtonGroup>
-                <FilterLink
-                    filter="SHOW_ALL">
-                    All
-                </FilterLink>{' '}
+        <FilterLink
+            filter="active">
+            Active
+        </FilterLink>{' '}
 
-                <FilterLink
-                    filter="SHOW_ACTIVE">
-                    Active
-                </FilterLink>{' '}
-
-                <FilterLink
-                    filter="SHOW_COMPLETED">
-                    Completed
-                </FilterLink>
-
-            </ButtonGroup>
-        </div>
-    </div>
+        <FilterLink
+            filter="completed">
+            Completed
+        </FilterLink>
+    </Paper>
 );
 
 export default Footer;

@@ -1,32 +1,33 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {actionAddTodo} from '../actions';
-import {InputGroup, InputGroupButton} from 'reactstrap';
-import {Button, Input} from 'reactstrap';
+import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
+import Paper from 'material-ui/Paper';
 
-let AddTodoPresentational = ({dispatch}) => {
+let AddTodo = ({dispatch}) => {
     let input;
 
     return (
-        <InputGroup>
-            <InputGroupButton>
-                <Button onClick={() => {
-                    if (input.value) {
+        <Paper>
+            <FlatButton onClick={() => {
+                if (input.value) {
 
-                        dispatch(actionAddTodo(input.value));
+                    dispatch(actionAddTodo(input.value));
 
-                        input.value = '';
-                    }
-                }}>Add Todo</Button>
-            </InputGroupButton>
+                    input.value = '';
 
-            <Input getRef={node => {
-                input = node;
+                }
+            }}>Add Todo
+            </FlatButton>
+
+            <TextField id="addTodoText" type="text" ref={node => {
+                input = node.input;
             }}/>
-        </InputGroup>
+        </Paper>
     );
 };
 
-const AddTodo = connect()(AddTodoPresentational);
+AddTodo = connect()(AddTodo);
 
 export default AddTodo;

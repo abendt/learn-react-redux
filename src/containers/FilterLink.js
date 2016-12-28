@@ -1,16 +1,16 @@
-import {connect} from 'react-redux';
-import {actionFilterTodo} from '../actions';
-import Link from '../components/Link';
+import React from "react";
+import {Link} from "react-router";
 
-const FilterLink = connect(
-    (store, ownProps) => ({
-        active: ownProps.filter === store.visibilityFilter
-    }),
+const FilterLink = ({filter, children}) => (
+        <Link to={filter === 'all' ? '' : filter}
+                                    activeStyle={{
+                                        textDecoration: 'none',
+                                        color: 'black',
+                                    }}
 
-    (dispatch, ownProps) => ({
-        onClick: () =>
-            dispatch(actionFilterTodo(ownProps.filter))
-    })
-)(Link);
+        >{children}
+        </Link>
+    )
+    ;
 
 export default FilterLink;

@@ -1,38 +1,37 @@
-import React from 'react'
+import React from "react";
+import Footer from "./Footer";
+import VisibleTodoList from "../containers/VisibleTodoList";
+import AddTodo from "../containers/AddTodo";
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import {deepOrange500} from 'material-ui/styles/colors';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import SnackbarNotification from "../containers/SnackbarNotification";
 
-import {Container, Row, Col} from 'reactstrap';
-import Footer from './Footer';
-import VisibleTodoList from '../containers/VisibleTodoList';
-import AddTodo from '../containers/AddTodo';
+const styles = {
+    container: {},
+};
 
-const App = () => (
-    <Container>
-        <Row>
-            <Col>
-                <h1>React/Redux Todo Tutorial</h1>
-            </Col>
-        </Row>
+const muiTheme = getMuiTheme({
+    palette: {
+        accent1Color: deepOrange500,
+    },
+});
 
-        <Row>
-            <Col>
-                <AddTodo />
-            </Col>
-        </Row>
 
-        <br />
+const App = ({store}) => (
+    <MuiThemeProvider muiTheme={muiTheme}>
+        <div style={styles.container}>
+            <h1>React/Redux Todo Tutorial</h1>
 
-        <Row>
-            <Col>
-                <VisibleTodoList />
-            </Col>
-        </Row>
+            <AddTodo />
 
-        <Row>
-            <Col>
-                <Footer />
-            </Col>
-        </Row>
-    </Container>
+            <VisibleTodoList />
+
+            <Footer />
+
+            <SnackbarNotification/>
+        </div>
+    </MuiThemeProvider>
 );
 
 export default App;
