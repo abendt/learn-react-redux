@@ -1,10 +1,10 @@
 import React from 'react'
 
 import FilterLink from '../containers/FilterLink';
-import Paper from 'material-ui/Paper';
+import {Panel} from 'react-bootstrap';
 
 const Footer = () => (
-    <Paper>
+    <Panel>
         Filter: {' '}
         <FilterLink
             filter="all">
@@ -20,7 +20,7 @@ const Footer = () => (
             filter="completed">
             Completed
         </FilterLink>
-    </Paper>
+    </Panel>
 );
 
 export default Footer;

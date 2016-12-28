@@ -1,18 +1,20 @@
 import React from "react";
 import Todo from "./Todo";
-import {List} from "material-ui/List";
-import Paper from "material-ui/Paper";
+import {ListGroup, Panel} from "react-bootstrap";
 
-const TodoList = ({todos, onTodoClick}) => (
-    <Paper>
-        <List>
-            {todos.map(todo =>
-                <Todo key={todo.id}
-                      {...todo}
-                      onClick={() => onTodoClick(todo.id)}/>)
-            }
-        </List>
-    </Paper>
-);
+const TodoList = ({todos, onTodoClick}) => {
+
+    return (
+        <Panel>
+            <ListGroup>
+                {todos.map(todo =>
+                    <Todo key={todo.id}
+                          {...todo}
+                          onClick={() => onTodoClick(todo.id)}/>)
+                }
+            </ListGroup>
+        </Panel>
+    );
+};
 
 export default TodoList;

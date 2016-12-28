@@ -10,3 +10,7 @@ export const actionToggleTodo = (id) => ({
     type: 'TOGGLE_TODO',
     id
 });
+
+export const actionResetNotification = () => ({
+   type: 'RESET_NOTIFICATION'
+});
