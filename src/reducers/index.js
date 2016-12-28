@@ -1,6 +1,5 @@
-import {combineReducers} from 'redux';
-import todos from './todos';
-import visibilityFilter from './visibilityFilter';
+import {combineReducers} from "redux";
+import todos from "./todos";
 
 const message = (state = {text: '', id: 0}, action) => {
     switch (action.type) {
@@ -22,7 +21,6 @@ const message = (state = {text: '', id: 0}, action) => {
 
 const todoApp = combineReducers({
     todos,
-    visibilityFilter,
     message
 });
 
