@@ -11,6 +11,7 @@ const message = (state = {text: '', id: 0}, action) => {
 
         case 'RESET_NOTIFICATION':
             // fallthrough
+
         default:
             return {
                 ...state,
@@ -27,4 +28,4 @@ const todoApp = combineReducers({
 export default todoApp;
 
 export const getVisibleTodos = (state, filter) =>
-    fromTodos.getVisibleTodos(state.todos, filter);
+    fromTodos.getVisibleTodos(state.todos.present, filter);
