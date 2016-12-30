@@ -5,7 +5,7 @@ test('can add todo', () => {
     const given = undefined;
 
     const actual = byId(given, {
-        type: 'ADD_TODO',
+        type: ':ADD_TODO',
         text: 'Text',
         id: 'id'
     });
@@ -29,7 +29,7 @@ test('todo is added to existing', () => {
 
     const actual = byId(given,
         {
-            type: 'ADD_TODO',
+            type: ':ADD_TODO',
             text: 'Text',
             id: 'id'
         });
@@ -59,7 +59,7 @@ test('can toggle todo', () => {
     });
 
     const actual = byId(given, {
-        type: 'TOGGLE_TODO',
+        type: ':TOGGLE_TODO',
         id: 'id'
     });
 

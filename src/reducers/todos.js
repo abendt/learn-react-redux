@@ -4,9 +4,9 @@ import {combineReducers} from "redux";
 
 export const byId = (state = {}, action) => {
     switch (action.type) {
-        case 'ADD_TODO':
+        case ':ADD_TODO':
         // fallthrough
-        case 'TOGGLE_TODO':
+        case ':TOGGLE_TODO':
             return {
                 ...state,
                 [action.id]: todo(state[action.id], action)
@@ -19,7 +19,7 @@ export const byId = (state = {}, action) => {
 
 const allIds = (state = [], action) => {
     switch (action.type) {
-        case 'ADD_TODO':
+        case ':ADD_TODO':
             return [...state, action.id];
 
         default:

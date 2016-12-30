@@ -3,13 +3,13 @@ import todos, * as fromTodos from "./todos";
 
 const message = (state = {text: '', id: 0}, action) => {
     switch (action.type) {
-        case 'ADD_TODO':
+        case ':ADD_TODO':
             return {
                 text: 'created todo',
                 id: Math.random()
             };
 
-        case 'RESET_NOTIFICATION':
+        case ':RESET_NOTIFICATION':
             // fallthrough
 
         default:
