@@ -24,9 +24,10 @@ const VisibleTodoList = withRouter(connect(
         todos: getVisibleTodos(state.todos, params.filter || 'all' )
     }),
 
-    (dispatch) => ({
-        onTodoClick: (id) => dispatch(actionToggleTodo(id))
-    })
+    {
+        onTodoClick: actionToggleTodo
+    }
+
 )(TodoList));
 
 export default VisibleTodoList;
