@@ -11,7 +11,7 @@ const App = ({params}) => (
 
         <AddTodo />
 
-        <VisibleTodoList filter={params.filter || 'all' }/>
+        <VisibleTodoList />
 
         <Footer />
 
