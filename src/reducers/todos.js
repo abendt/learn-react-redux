@@ -39,11 +39,11 @@ const undoableTodos = undoable(todos, {
 
 export default undoableTodos;
 
-const extractTodos = (state) =>
+const getAllTodos = (state) =>
     state.allIds.map(todo => state.byId[todo]);
 
 export const getVisibleTodos = (state, filter) => {
-    const todos = extractTodos(state);
+    const todos = getAllTodos(state);
 
     switch (filter) {
         case 'all':
