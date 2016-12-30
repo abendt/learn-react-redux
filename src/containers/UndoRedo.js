@@ -1,15 +1,17 @@
 import React from "react";
-import {Button, ButtonToolbar} from "react-bootstrap";
+import {Button, ButtonToolbar, Glyphicon} from "react-bootstrap";
 import {connect} from "react-redux";
 import {ActionCreators as UndoActionCreators} from "redux-undo";
 
 let UndoRedo = ({canUndo, canRedo, onUndo, onRedo}) => (
     <ButtonToolbar>
         <Button onClick={onUndo} disabled={!canUndo}>
+            <Glyphicon glyph="step-backward" />
             Undo
         </Button>
 
         <Button onClick={onRedo} disabled={!canRedo}>
+            <Glyphicon glyph="step-forward" />
             Redo
         </Button>
     </ButtonToolbar>
