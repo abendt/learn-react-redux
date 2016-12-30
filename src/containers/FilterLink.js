@@ -1,16 +1,12 @@
 import React from "react";
-import {Link} from "react-router";
+import {Button} from "react-bootstrap";
+import {LinkContainer} from "react-router-bootstrap";
 
 const FilterLink = ({filter, children}) => (
-        <Link to={filter === 'all' ? '' : filter}
-                                    activeStyle={{
-                                        textDecoration: 'none',
-                                        color: 'black',
-                                    }}
+    <LinkContainer to={filter === 'all' ? '' : filter}>
+        <Button>{children}</Button>
+    </LinkContainer>
 
-        >{children}
-        </Link>
-    )
-    ;
+);
 
 export default FilterLink;
