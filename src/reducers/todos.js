@@ -1,6 +1,7 @@
 import undoable, {distinctState} from 'redux-undo';
 import todo from "./todo";
 import {combineReducers} from "redux";
+import {demapify} from 'es6-mapify';
 
 export const byId = (state = {}, action) => {
     switch (action.type) {
@@ -12,22 +13,31 @@ export const byId = (state = {}, action) => {
                 [action.id]: todo(state[action.id], action)
             };
 
+        case ':DELETE_TODO':
+            const asList = Object.keys(state).map(key => state[key]);
+            const filteredList = asList.filter((todo) => todo.id !== action.id);
+            const asMap = new Map(filteredList.map((todo) => [todo.id, todo]));
+            return demapify(asMap);
+
         default:
             return state;
     }
 };
 
-const allIds = (state = [], action) => {
+export const allIds = (state = [], action) => {
     switch (action.type) {
         case ':ADD_TODO':
             return [...state, action.id];
 
+        case ':DELETE_TODO':
+            return state.filter((t) => t !== action.id);
+
         default:
             return state;
     }
 };
 
-const todos = combineReducers({
+export const todos = combineReducers({
         byId,
         allIds
     }
@@ -43,6 +53,7 @@ const getAllTodos = (state) =>
     state.allIds.map(todo => state.byId[todo]);
 
 export const getVisibleTodos = (state, filter) => {
+
     const todos = getAllTodos(state);
 
     switch (filter) {

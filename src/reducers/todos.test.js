@@ -1,5 +1,5 @@
 import deepfreeze from "deep-freeze";
-import {byId} from "./todos";
+import {byId, allIds} from "./todos";
 
 test('can add todo', () => {
     const given = undefined;
@@ -72,5 +72,50 @@ test('can toggle todo', () => {
     };
 
     expect(actual).toEqual(expected);
+});
+
+test('byId can delete todo', () => {
+    const given = deepfreeze({
+        id: {
+            id: 'id',
+            completed: false,
+            text: 'Text'
+        }
+    });
+
+    const actual = byId(given, {
+        type: ':DELETE_TODO',
+        id: 'id'
+    });
+
+    expect(actual).toEqual({});
+});
+
+test('delete preserves old', () => {
+    const given = deepfreeze({
+        id: {
+            id: 'id',
+            completed: false,
+            text: 'Text'
+        }
+    });
+
+    const actual = byId(given, {
+        type: ':DELETE_TODO',
+        id: 'x'
+    });
+    
+    expect(actual).toEqual(given);
+});
+
+test('addIds can delete todo', () => {
+    const given = deepfreeze(['id']);
+
+    const actual = allIds(given, {
+        type: ':DELETE_TODO',
+        id: 'id'
+    });
+
+    expect(actual).toEqual([]);
 });
 

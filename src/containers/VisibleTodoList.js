@@ -1,6 +1,6 @@
 import {connect} from "react-redux";
 import {withRouter} from "react-router";
-import {actionToggleTodo} from "../actions";
+import {actionToggleTodo, actionDeleteTodo} from "../actions";
 import TodoList from "../components/TodoList";
 import {getVisibleTodos} from "../reducers";
 
@@ -10,7 +10,8 @@ const VisibleTodoList = withRouter(connect(
     }),
 
     {
-        onTodoClick: actionToggleTodo
+        onTodoClick: actionToggleTodo,
+        onDeleteTodo: actionDeleteTodo
     }
 )(TodoList));
 

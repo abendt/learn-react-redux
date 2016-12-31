@@ -1,21 +1,31 @@
 import React from "react";
-import {ListGroupItem, Glyphicon} from "react-bootstrap";
+import {ListGroupItem, Glyphicon, Button, Row, Col} from "react-bootstrap";
 
-const Todo = ({text, completed, onClick}) => {
+const Todo = ({text, completed, onToggleTodo, onDeleteTodo}) => {
 
     const icon = completed ? 'ok' : 'tasks';
 
     return (
-        <ListGroupItem
+        <Row>
+            <Col xs={10}>
+                <ListGroupItem
 
-            onClick={() => onClick()}
+                    onClick={() => onToggleTodo()}
 
-            style={{
-                textDecoration: completed ? 'line-through' : 'none'
-            }}
-        ><Glyphicon glyph={icon} />{' '}
-            {text}
-        </ListGroupItem>
+                    style={{
+                        textDecoration: completed ? 'line-through' : 'none'
+                    }}
+                ><Glyphicon glyph={icon}/>{' '}
+                    {text}
+                </ListGroupItem>
+            </Col>
+
+            <Col xs={1 }>
+                <Button onClick={() => onDeleteTodo()} className="btn-circle" >
+                    <Glyphicon glyph="remove"/>
+                </Button>
+            </Col>
+        </Row>
     );
 };
 

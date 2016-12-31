@@ -7,8 +7,23 @@ let AddTodo = ({dispatch}) => {
 
     let input;
 
+    const addTodo = () => {
+        if (input && input.value) {
+
+            dispatch(actionAddTodo(input.value));
+
+            input.value = '';
+        }
+    };
+
     const handleChange = (e) => {
         input = e.target;
+    };
+
+    const handleKeyPress = (e) => {
+        if (e.charCode === 13) {
+            addTodo();
+        }
     };
 
     return (
@@ -16,16 +31,13 @@ let AddTodo = ({dispatch}) => {
             <FormGroup>
                 <InputGroup>
                     <InputGroup.Button>
-                        <Button onClick={() => {
-                            if (input && input.value) {
-
-                                dispatch(actionAddTodo(input.value));
-
-                                input.value = '';
-                            }
-                        }}><Glyphicon glyph="plus" /> Add Todo</Button>
+                        <Button onClick={() => addTodo()}><Glyphicon glyph="plus"/> Add Todo</Button>
                     </InputGroup.Button>
-                    <FormControl type="text" onChange={handleChange}/>
+
+                    <FormControl type="text"
+                                 onChange={handleChange}
+                                 onKeyPress={handleKeyPress}
+                                 placeholder="enter a Todo"/>
                 </InputGroup>
             </FormGroup>
         </Panel>

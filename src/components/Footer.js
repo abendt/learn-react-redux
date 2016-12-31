@@ -4,8 +4,7 @@ import FilterLink from '../containers/FilterLink';
 import {Panel} from 'react-bootstrap';
 
 const Footer = () => (
-    <Panel>
-        Filter: {' '}
+    <Panel header="Filter">
         <FilterLink
             filter="all">
             All

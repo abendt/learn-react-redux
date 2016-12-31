@@ -12,6 +12,11 @@ export const actionToggleTodo = (id) => ({
 });
 
 export const actionResetNotification = () => ({
-   type: ':RESET_NOTIFICATION'
+    type: ':RESET_NOTIFICATION'
+});
+
+export const actionDeleteTodo = (id) => ({
+    type: ':DELETE_TODO',
+    id
 });
 
