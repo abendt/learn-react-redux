@@ -7,7 +7,7 @@ import UndoRedo from "../containers/UndoRedo";
 import {Grid, Panel} from "react-bootstrap";
 
 const App = ({params}) => (
-    <Grid>
+    <Grid fluid={true} >
         <Panel header={<h3>Todo App</h3>}>
             <AddTodo />
 
@@ -17,7 +17,7 @@ const App = ({params}) => (
 
             <UndoRedo />
 
-            <Notification/>
+            <Notification />
         </Panel>
     </Grid>
 );

@@ -9,9 +9,6 @@ const message = (state = {text: '', id: 0}, action) => {
                 id: Math.random()
             };
 
-        case ':RESET_NOTIFICATION':
-            // fallthrough
-
         default:
             return {
                 ...state,

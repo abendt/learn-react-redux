@@ -1,9 +1,10 @@
 import React from "react";
-import {connect} from "react-redux";
 import {AlertList} from "react-bs-notifier";
-import {actionResetNotification} from '../actions'
 
-const alertFromMessage = (message) => {
+const defaultPosition = "top-right";
+const defaultTimeout = 1000;
+
+const messageToAlert = (message = {text: ''}) => {
     if (message.text !== '') {
         return {
             id: (new Date()).getTime(),
@@ -16,41 +17,68 @@ const alertFromMessage = (message) => {
     }
 };
 
-const alertsFromMessage = (message) => {
-    const al = alertFromMessage(message);
+const messageToAlerts = (message) => {
+    const alert = messageToAlert(message);
 
-    return al ? [al] : [];
+    return alert ? [alert] : [];
 };
 
-const alertListState = (message) => ({
-    position: "top-right",
-    alerts: alertsFromMessage(message),
-    timeout: 1000
-});
+export class Notification extends React.Component {
+    constructor(props, context) {
+        super(props, context);
 
-let Notification = ({message, onAlertDismissed}) => {
+        this.store = context.store;
 
-    const myState = alertListState(message);
+        this.onAlertDismissed = this.onAlertDismissed.bind(this);
 
-    return (
-        <AlertList
-            position="top-right"
-            alerts={myState.alerts}
-            timeout={1000}
-            dismissTitle="Begone!"
-            onDismiss={onAlertDismissed}
-        />
-    );
+        this.updateState();
+    }
+
+    updateState() {
+        const message = this.store.getState().message;
+
+        this.state = {
+            alerts: messageToAlerts(message)
+        };
+    }
+
+    componentDidMount() {
+        this.unsubscribe = this.store.subscribe(() => {
+                this.updateState();
+                this.forceUpdate();
+            }
+        );
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
+
+    onAlertDismissed(alert) {
+
+        const currentAlerts = this.state.alerts;
+        const updatedAlerts = currentAlerts.filter(a => a.id !== alert.id);
+
+        this.setState({
+            alerts: updatedAlerts
+        });
+    }
+
+    render() {
+        return (
+            <AlertList
+                position={defaultPosition}
+                alerts={this.state.alerts}
+                timeout={defaultTimeout}
+                dismissTitle="Begone!"
+                onDismiss={this.onAlertDismissed}
+            />
+        );
+    }
+}
+
+Notification.contextTypes = {
+    store: React.PropTypes.object.isRequired
 };
-
-Notification = connect(
-    state => ({
-        message: state.message
-    }),
-
-    dispatch => ({
-        onAlertDismissed: (it) => dispatch(actionResetNotification())
-    })
-)(Notification);
 
 export default Notification;
