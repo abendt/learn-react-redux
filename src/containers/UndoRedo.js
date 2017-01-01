@@ -6,12 +6,12 @@ import {ActionCreators as UndoActionCreators} from "redux-undo";
 let UndoRedo = ({canUndo, canRedo, onUndo, onRedo}) => (
     <ButtonToolbar>
         <Button onClick={onUndo} disabled={!canUndo}>
-            <Glyphicon glyph="step-backward" />
+            <Glyphicon glyph="step-backward"/>
             Undo
         </Button>
 
         <Button onClick={onRedo} disabled={!canRedo}>
-            <Glyphicon glyph="step-forward" />
+            <Glyphicon glyph="step-forward"/>
             Redo
         </Button>
     </ButtonToolbar>
@@ -25,17 +25,14 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onUndo: () => dispatch(UndoActionCreators.undo()),
-
-        onRedo: () => dispatch(UndoActionCreators.redo())
-    };
-};
-
 UndoRedo = connect(
     mapStateToProps,
-    mapDispatchToProps
+
+    {
+        onUndo: UndoActionCreators.undo,
+
+        onRedo: UndoActionCreators.redo
+    }
 )(UndoRedo);
 
 export default UndoRedo;
