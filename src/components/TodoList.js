@@ -1,6 +1,6 @@
 import React from "react";
 import Todo from "./Todo";
-import {ListGroup, Panel} from "react-bootstrap";
+import {ListGroup} from "react-bootstrap";
 
 const TodoList = ({todos, onTodoClick, onDeleteTodo}) => {
 

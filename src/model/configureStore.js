@@ -1,4 +1,4 @@
-import {loadState, saveState} from './localStorage';
+import {saveState} from "./localStorage";
 import throttle from "lodash/throttle";
 import {createStore} from "redux";
 import todoApp from "../reducers";
@@ -26,7 +26,6 @@ const addLoggingToStore = store => {
 
 const configureStore = () => {
     const loadedState = undefined;
-    //loadState();
 
     // Store mit Support für Chrome Dev Tools
     const store = createStore(todoApp, loadedState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

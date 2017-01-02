@@ -24,6 +24,7 @@ const messageToAlerts = (message) => {
 };
 
 export class Notification extends React.Component {
+
     constructor(props, context) {
         super(props, context);
 

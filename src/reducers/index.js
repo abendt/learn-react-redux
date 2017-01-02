@@ -9,6 +9,12 @@ const message = (state = {text: '', id: 0}, action) => {
                 id: Math.random()
             };
 
+        case ':DELETE_TODO':
+            return {
+                text: 'deleted todo',
+                id: Math.random()
+            };
+
         default:
             return {
                 ...state,
