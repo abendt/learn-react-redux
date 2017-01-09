@@ -13,29 +13,28 @@ describe('Todo App', function () {
 
         addTodoText.sendKeys("new TODO");
         addTodoButton.click();
-
         browser.wait(presenceOfAll(todoRows), 1000);
+        console.log("created todo");
 
         filterLinks.get(2).click();
-
         browser.wait(EC.invisibilityOf($("#todoItemRow #item")), 1000);
+        console.log("filtered finished");
 
         filterLinks.get(1).click();
-
         const todo = todoItems.first();
-
         expect(todo.getText()).toBe('new TODO');
+        console.log("filtered active");
 
         todoItems.get(0).click();
-
         browser.wait(EC.invisibilityOf($("#todoItemRow #item")), 1000);
+        console.log("toggled todo");
 
         filterLinks.get(0).click();
-
         todoRows.all(by.id("deleteTodo")).click();
+        console.log("filtered all");
 
         browser.wait(EC.invisibilityOf($("#todoItemRow #item")), 1000);
-
+        console.log("deleted todo");
     });
 
 });

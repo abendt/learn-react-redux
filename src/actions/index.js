@@ -1,10 +1,12 @@
 import uuid from "uuid";
+import {fetchTodos} from "../api";
 
 export const actionAddTodo = (text) => ({
     type: ':ADD_TODO',
     id: uuid(),
     text
 });
+
 
 export const actionToggleTodo = (id) => ({
     type: ':TOGGLE_TODO',
@@ -16,8 +18,14 @@ export const actionDeleteTodo = (id) => ({
     id
 });
 
-export const actionReceiveTodos = (filter, todos) => ({
+const actionReceiveTodos = (filter, todos) => ({
     type: ':RECEIVE_TODOS',
     todos
 });
+
+export const actionFetchTodos = (filter) =>
+    fetchTodos(filter).then(response =>
+        actionReceiveTodos(filter, response)
+    );
+
 

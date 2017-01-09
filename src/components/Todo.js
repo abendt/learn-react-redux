@@ -6,9 +6,10 @@ const Todo = ({text, completed, onToggleTodo, onDeleteTodo}) => {
     const icon = completed ? 'ok' : 'tasks';
 
     return (
-        <Row>
+        <Row id="todoItemRow">
             <Col xs={10}>
                 <ListGroupItem
+                    id="item"
 
                     onClick={() => onToggleTodo()}
 
@@ -21,7 +22,7 @@ const Todo = ({text, completed, onToggleTodo, onDeleteTodo}) => {
             </Col>
 
             <Col xs={1 }>
-                <Button onClick={() => onDeleteTodo()} className="btn-circle" >
+                <Button id="deleteTodo" onClick={() => onDeleteTodo()} className="btn-circle" >
                     <Glyphicon glyph="remove"/>
                 </Button>
             </Col>

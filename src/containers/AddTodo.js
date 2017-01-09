@@ -7,9 +7,9 @@ let AddTodo = ({dispatch}) => {
 
     let input;
 
-    const addTodo = () => {
+    const addTodoClicked = () => {
         if (input && input.value) {
-
+            console.log("clicked");
             dispatch(actionAddTodo(input.value));
 
             input.value = '';
@@ -22,7 +22,7 @@ let AddTodo = ({dispatch}) => {
 
     const handleKeyPress = (e) => {
         if (e.charCode === 13) {
-            addTodo();
+            addTodoClicked();
         }
     };
 
@@ -31,10 +31,11 @@ let AddTodo = ({dispatch}) => {
             <FormGroup>
                 <InputGroup>
                     <InputGroup.Button>
-                        <Button onClick={() => addTodo()}><Glyphicon glyph="plus"/> Add Todo</Button>
+                        <Button id="addTodoButton" onClick={() => addTodoClicked()}><Glyphicon glyph="plus"/> Add Todo</Button>
                     </InputGroup.Button>
 
-                    <FormControl type="text"
+                    <FormControl id="addTodoText"
+                                 type="text"
                                  onChange={handleChange}
                                  onKeyPress={handleKeyPress}
                                  placeholder="enter a Todo"/>

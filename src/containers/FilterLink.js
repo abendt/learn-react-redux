@@ -4,7 +4,7 @@ import {LinkContainer} from "react-router-bootstrap";
 
 const FilterLink = ({filter, children}) => (
     <LinkContainer to={filter === 'all' ? '' : filter}>
-        <Button>{children}</Button>
+        <Button id="filterLink">{children}</Button>
     </LinkContainer>
 );
 
