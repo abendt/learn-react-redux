@@ -1,5 +1,7 @@
-import {createStore} from "redux";
+import {createStore, applyMiddleware, compose} from "redux";
 import todoApp from "../reducers";
+import promise from "redux-promise";
+import createLogger from "redux-logger";
 
 const logging = (store) => (dispatch) => {
 
@@ -20,38 +22,15 @@ const logging = (store) => (dispatch) => {
     };
 };
 
-const promises = (store) => (dispatch) => {
-
-    return (action) => {
-        if (typeof action.then === 'function') {
-            return action.then(dispatch);
-        }
-
-        return dispatch(action);
-    };
-};
-
-const wrapDispatchWithMiddleware = (store, middlewares) => {
-    middlewares.slice().reverse().forEach(middleware =>
-        store.dispatch = middleware(store)(store.dispatch)
-    )
-};
-
 const configureStore = () => {
     const loadedState = undefined;
 
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+    const middlewares = [promise, logging];
+
     // Store mit Support für Chrome Dev Tools
-    const store = createStore(todoApp, loadedState, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-
-    const middlewares = [promises];
-
-    wrapDispatchWithMiddleware(store, middlewares);
-
-    // store.subscribe(throttle(() => {
-    //     saveState({
-    //         todos: store.getState().todos
-    //     });
-    // }, 1000));
+    const store = createStore(todoApp, loadedState, composeEnhancers(applyMiddleware(...middlewares)));
 
     return store;
 };
