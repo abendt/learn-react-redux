@@ -25,37 +25,35 @@ const messageToAlerts = (message) => {
 
 export class Notification extends React.Component {
 
+    state = {alerts: [messageToAlert({text: "Welcome"})]};
+
     constructor(props, context) {
         super(props, context);
 
         this.store = context.store;
-
-        this.onAlertDismissed = this.onAlertDismissed.bind(this);
-
-        this.updateState();
     }
 
-    updateState() {
+    updateState = () => {
         const message = this.store.getState().message;
 
         this.state = {
             alerts: messageToAlerts(message)
         };
-    }
+    };
 
-    componentDidMount() {
+    componentDidMount = () => {
         this.unsubscribe = this.store.subscribe(() => {
                 this.updateState();
                 this.forceUpdate();
             }
         );
-    }
+    };
 
-    componentWillUnmount() {
+    componentWillUnmount = () => {
         this.unsubscribe();
-    }
+    };
 
-    onAlertDismissed(alert) {
+    onAlertDismissed = (alert) => {
 
         const currentAlerts = this.state.alerts;
         const updatedAlerts = currentAlerts.filter(a => a.id !== alert.id);
@@ -63,7 +61,7 @@ export class Notification extends React.Component {
         this.setState({
             alerts: updatedAlerts
         });
-    }
+    };
 
     render() {
         return (
