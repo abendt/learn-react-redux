@@ -108,7 +108,7 @@ test('delete preserves old', () => {
     expect(actual).toEqual(given);
 });
 
-test('addIds can delete todo', () => {
+it.skip('addIds can delete todo', () => {
     const given = deepfreeze(['id']);
 
     const actual = allIds(given, {
