@@ -5,40 +5,58 @@ import {createMockStore} from 'redux-test-utils';
 
 jest.useFakeTimers();
 
-test('does not render alert when message is empty', () => {
-    const store = createMockStore({
+const emptyStoreWith = () => {
+    const state = {
         message: {text: ''}
+    };
+
+    const store = createMockStore(state);
+
+    store.subscriptions = [];
+    store.subscribe = (cb) => store.subscriptions.push(cb);
+
+    store.updateMessage = (s) => {
+        state.message = s;
+        store.subscriptions.forEach(sub => sub());
+    };
+
+    return store;
+};
+
+describe("Notification component", () => {
+    it('does not render alert when message is empty', () => {
+        const store = emptyStoreWith();
+
+        const actual = mount(<Notification store={store}/>, {context: {store}});
+
+        expect(actual.find(".alert")).toHaveLength(0);
     });
 
-    const actual = mount(<Notification store={store}/>, {context: {store}});
+    it('does render alert when message is set', () => {
+        const store = emptyStoreWith();
 
-    expect(actual.find(".alert")).toHaveLength(0);
-});
+        const actual = mount(<Notification store={store}/>, {context: {store}});
 
-test('does render alert when message is set', () => {
-    const store = createMockStore({
-        message: {
+        store.updateMessage(
+        {
             id: 'id',
-            text: 'bla'}
+            text: 'MessageXYZ'
+        });
+
+        expect(actual.find(".alert")).toHaveLength(1);
+        expect(actual.text()).toContain("MessageXYZ");
     });
 
-    const actual = mount(<Notification store={store}/>, {context: {store}});
+    it('remove alerts after timeout', () => {
+        const store = emptyStoreWith();
+        const actual = mount(<Notification store={store}/>, {context: {store}});
+        store.updateMessage(
+            {
+                id: 'id',
+                text: 'MessageXYZ'
+            });
 
-    expect(actual.find(".alert")).toHaveLength(1);
-    expect(actual.text()).toContain("bla");
+        jest.runAllTimers();
+        expect(actual.find(".alert")).toHaveLength(0);
+    })
 });
-
-test('remove alerts after timeout', () => {
-    const store = createMockStore({
-        message: {
-            id: 'id',
-            text: 'bla'}
-    });
-
-    const actual = mount(<Notification store={store}/>, {context: {store}});
-
-    jest.runAllTimers();
-    expect(actual.find(".alert")).toHaveLength(0);
-});
-
-

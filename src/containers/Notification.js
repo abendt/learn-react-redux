@@ -25,7 +25,7 @@ const messageToAlerts = (message) => {
 
 export class Notification extends React.Component {
 
-    state = {alerts: [messageToAlert({text: "Welcome"})]};
+    state = {alerts: []};
 
     constructor(props, context) {
         super(props, context);

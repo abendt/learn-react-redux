@@ -1,121 +1,123 @@
 import deepfreeze from "deep-freeze";
 import {byId, allIds} from "./todos";
 
-test('can add todo', () => {
-    const given = undefined;
+describe.skip("todos reducer", () => {
+    it('can add todo', () => {
+        const given = undefined;
 
-    const actual = byId(given, {
-        type: ':ADD_TODO',
-        text: 'Text',
-        id: 'id'
-    });
-
-    const expected = {
-        id: {
-            id: 'id',
-            completed: false,
-            text: 'Text'
-        }
-    };
-
-    expect(actual).toEqual(expected);
-});
-
-test('todo is added to existing', () => {
-    const given = deepfreeze(
-        {
-            old: {id: 'old'}
-        });
-
-    const actual = byId(given,
-        {
+        const actual = byId(given, {
             type: ':ADD_TODO',
             text: 'Text',
             id: 'id'
         });
 
-    const expected = {
-        old: {
-            id: 'old'
-        },
+        const expected = {
+            id: {
+                id: 'id',
+                completed: false,
+                text: 'Text'
+            }
+        };
 
-        id: {
-            id: 'id',
-            completed: false,
-            text: 'Text'
-        }
-    };
-
-    expect(actual).toEqual(expected);
-});
-
-test('can toggle todo', () => {
-    const given = deepfreeze({
-        id: {
-            id: 'id',
-            completed: false,
-            text: 'Text'
-        }
+        expect(actual).toEqual(expected);
     });
 
-    const actual = byId(given, {
-        type: ':TOGGLE_TODO',
-        id: 'id'
+    it('todo is added to existing', () => {
+        const given = deepfreeze(
+            {
+                old: {id: 'old'}
+            });
+
+        const actual = byId(given,
+            {
+                type: ':ADD_TODO',
+                text: 'Text',
+                id: 'id'
+            });
+
+        const expected = {
+            old: {
+                id: 'old'
+            },
+
+            id: {
+                id: 'id',
+                completed: false,
+                text: 'Text'
+            }
+        };
+
+        expect(actual).toEqual(expected);
     });
 
-    const expected = {
-        id: {
-            id: 'id',
-            completed: true,
-            text: 'Text'
-        }
-    };
+    it('can toggle todo', () => {
+        const given = deepfreeze({
+            id: {
+                id: 'id',
+                completed: false,
+                text: 'Text'
+            }
+        });
 
-    expect(actual).toEqual(expected);
-});
+        const actual = byId(given, {
+            type: ':TOGGLE_TODO',
+            id: 'id'
+        });
 
-test('byId can delete todo', () => {
-    const given = deepfreeze({
-        id: {
-            id: 'id',
-            completed: false,
-            text: 'Text'
-        }
+        const expected = {
+            id: {
+                id: 'id',
+                completed: true,
+                text: 'Text'
+            }
+        };
+
+        expect(actual).toEqual(expected);
     });
 
-    const actual = byId(given, {
-        type: ':DELETE_TODO',
-        id: 'id'
+    it('byId can delete todo', () => {
+        const given = deepfreeze({
+            id: {
+                id: 'id',
+                completed: false,
+                text: 'Text'
+            }
+        });
+
+        const actual = byId(given, {
+            type: ':DELETE_TODO',
+            id: 'id'
+        });
+
+        expect(actual).toEqual({});
     });
 
-    expect(actual).toEqual({});
-});
+    it('delete preserves old', () => {
+        const given = deepfreeze({
+            id: {
+                id: 'id',
+                completed: false,
+                text: 'Text'
+            }
+        });
 
-test('delete preserves old', () => {
-    const given = deepfreeze({
-        id: {
-            id: 'id',
-            completed: false,
-            text: 'Text'
-        }
+        const actual = byId(given, {
+            type: ':DELETE_TODO',
+            id: 'x'
+        });
+
+        expect(actual).toEqual(given);
     });
 
-    const actual = byId(given, {
-        type: ':DELETE_TODO',
-        id: 'x'
+    it.skip('addIds can delete todo', () => {
+        const given = deepfreeze(['id']);
+
+        const actual = allIds(given, {
+            type: ':DELETE_TODO',
+            id: 'id'
+        });
+
+        expect(actual).toEqual([]);
     });
-    
-    expect(actual).toEqual(given);
-});
-
-it.skip('addIds can delete todo', () => {
-    const given = deepfreeze(['id']);
-
-    const actual = allIds(given, {
-        type: ':DELETE_TODO',
-        id: 'id'
-    });
-
-    expect(actual).toEqual([]);
 });
 
