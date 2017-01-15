@@ -41,6 +41,7 @@ VisibleTodoList = withRouter(connect(
     // state to props
     (state, {params}) => {
         const filter = params.filter || 'all';
+
         return ({
             filter,
             isFetching: getIsFetching(state, filter),
