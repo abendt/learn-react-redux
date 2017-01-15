@@ -1,5 +1,5 @@
 import uuid from "uuid";
-import {fetchTodos} from "../api";
+import * as api from "../api";
 
 export const actionAddTodo = (text) => ({
     type: ':ADD_TODO',
@@ -29,9 +29,12 @@ const actionReceiveTodos = (filter, todos) => ({
     todos
 });
 
-export const actionFetchTodos = (filter) =>
-    fetchTodos(filter).then(response =>
-        actionReceiveTodos(filter, response)
+export const actionFetchTodos = (filter) => (dispatch) => {
+    dispatch(actionRequestTodos(filter));
+
+    return api.fetchTodos(filter).then(response =>
+        dispatch(actionReceiveTodos(filter, response))
     );
+};
 
 
