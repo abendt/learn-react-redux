@@ -32,7 +32,7 @@ const actionReceiveTodos = (filter, todos) => ({
 
 export const actionFetchTodos = (filter) => (dispatch, getState) => {
     if (getIsFetching(getState(), filter)) {
-        return;
+        return Promise.resolve();
     }
 
     dispatch(actionRequestTodos(filter));

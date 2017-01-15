@@ -1,12 +1,7 @@
 import {createStore, applyMiddleware, compose} from "redux";
 import todoApp from "../reducers";
-import promise from "redux-promise";
 import createLogger from "redux-logger";
-
-const thunk = (store) => (next) => (action) =>
-    typeof action === 'function' ?
-        action(store.dispatch, store.getState) :
-        next(action);
+import thunk from "redux-thunk";
 
 const configureStore = () => {
     const loadedState = undefined;
