@@ -18,6 +18,11 @@ export const actionDeleteTodo = (id) => ({
     id
 });
 
+export const actionRequestTodos = (filter) => ({
+    type: ':REQUEST_TODOS',
+    filter
+});
+
 const actionReceiveTodos = (filter, todos) => ({
     type: ':RECEIVE_TODOS',
     filter,

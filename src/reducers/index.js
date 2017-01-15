@@ -32,3 +32,6 @@ export default todoApp;
 
 export const getVisibleTodos = (state, filter) =>
     fromTodos.getVisibleTodos(state.todos.present, filter);
+
+export const getIsFetching = (state, filter) =>
+    fromTodos.getIsFetching(state.todos.present, filter);

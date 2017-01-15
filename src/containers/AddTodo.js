@@ -9,7 +9,6 @@ let AddTodo = ({dispatch}) => {
 
     const addTodoClicked = () => {
         if (input && input.value) {
-            console.log("clicked");
             dispatch(actionAddTodo(input.value));
 
             input.value = '';

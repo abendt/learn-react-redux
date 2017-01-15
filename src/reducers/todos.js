@@ -4,7 +4,7 @@ import {combineReducers} from "redux";
 import createList, * as fromList from "./createList";
 import byId, * as fromById from "./byId";
 
-const idsByFilter = combineReducers({
+const listByFilter = combineReducers({
     all: createList('all'),
     active: createList('active'),
     completed: createList('completed')
@@ -12,12 +12,12 @@ const idsByFilter = combineReducers({
 
 export const todos = combineReducers({
         byId,
-        idsByFilter
+        listByFilter
     }
 );
 
 export const getVisibleTodos = (state, filter) => {
-    const ids = fromList.getIds(state.idsByFilter[filter]);
+    const ids = fromList.getIds(state.listByFilter[filter]);
 
     return ids.map(id => fromById.getTodo(state.byId, id));
 };
@@ -27,3 +27,7 @@ const undoableTodos = undoable(todos, {
 });
 
 export default undoableTodos;
+
+export const getIsFetching = (state, filter) => {
+    return fromList.getIsFetching(state.listByFilter[filter]);
+};
