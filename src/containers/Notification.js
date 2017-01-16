@@ -8,19 +8,13 @@ const messageToAlert = (message = {text: ''}) => {
     if (message.text !== '') {
         return {
             id: (new Date()).getTime(),
-            type: 'success',
+            type: message.type || 'success',
             headline: `Whoa!`,
             message: message.text
         }
     } else {
         return undefined;
     }
-};
-
-const messageToAlerts = (message) => {
-    const alert = messageToAlert(message);
-
-    return alert ? [alert] : [];
 };
 
 export class Notification extends React.Component {
@@ -36,9 +30,18 @@ export class Notification extends React.Component {
     updateState = () => {
         const message = this.store.getState().message;
 
-        this.state = {
-            alerts: messageToAlerts(message)
-        };
+        if (message) {
+            const alerts = this.state.alerts;
+            const alert = messageToAlert(message);
+
+            if (alert) {
+                alerts.push(alert);
+
+                this.setState({
+                    alerts
+                });
+            }
+        }
     };
 
     componentDidMount = () => {
@@ -54,7 +57,6 @@ export class Notification extends React.Component {
     };
 
     onAlertDismissed = (alert) => {
-
         const currentAlerts = this.state.alerts;
         const updatedAlerts = currentAlerts.filter(a => a.id !== alert.id);
 

@@ -1,18 +1,18 @@
 import React, {PropTypes} from "react";
-import {Button} from "react-bootstrap";
+import {Panel, Button} from "react-bootstrap";
 
 const FetchError = ({message, onRetry}) => {
     return (
-        <div>
+        <Panel>
             <p>could not fetch Todos {message}</p>
             <Button onClick={onRetry} >Retry</Button>
-        </div>
+        </Panel>
     );
 };
 
 FetchError.propTypes = {
-    message: React.PropTypes.string.isRequired,
-    onRetry: React.PropTypes.func.isRequired
+    message: PropTypes.string.isRequired,
+    onRetry: PropTypes.func.isRequired
 };
 FetchError.defaultProps = {};
 

@@ -5,6 +5,7 @@ import * as actions from "../actions";
 import TodoList from "../components/TodoList";
 import {getVisibleTodos, getIsFetching, getErrorMessage} from "../reducers";
 import FetchError from "../components/FetchError";
+import {Panel} from "react-bootstrap";
 
 class VisibleTodoList extends React.Component {
     componentDidMount = () => {
@@ -27,11 +28,11 @@ class VisibleTodoList extends React.Component {
         const {actionToggleTodo, actionDeleteTodo, todos, isFetching, errorMessage} = this.props;
 
         if (errorMessage && !todos.length) {
-            return <FetchError message={errorMessage} onRetry={() => this.fetchData()}/>
+            return (<FetchError message={errorMessage} onRetry={() => this.fetchData()}/>)
         }
 
         if (isFetching && !todos.length) {
-            return <p>Loading ...</p>;
+            return <Panel>Loading ...</Panel>;
         }
 
         return <TodoList

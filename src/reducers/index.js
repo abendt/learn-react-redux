@@ -15,6 +15,13 @@ const message = (state = {text: '', id: 0}, action) => {
                 id: Math.random()
             };
 
+        case ':FETCH_TODOS_FAILURE':
+            return {
+                text: 'Fetch failed',
+                id: Math.random(),
+                type: 'warning'
+            };
+
         default:
             return {
                 ...state,
