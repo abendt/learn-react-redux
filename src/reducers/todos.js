@@ -31,3 +31,7 @@ export default undoableTodos;
 export const getIsFetching = (state, filter) => {
     return fromList.getIsFetching(state.listByFilter[filter]);
 };
+
+export const getErrorMessage = (state, filter) => {
+    return fromList.getErrorMessage(state.listByFilter[filter]);
+};

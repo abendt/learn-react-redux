@@ -19,26 +19,31 @@ export const actionDeleteTodo = (id) => ({
     id
 });
 
-export const actionRequestTodos = (filter) => ({
-    type: ':REQUEST_TODOS',
-    filter
-});
-
-const actionReceiveTodos = (filter, todos) => ({
-    type: ':RECEIVE_TODOS',
-    filter,
-    todos
-});
-
 export const actionFetchTodos = (filter) => (dispatch, getState) => {
     if (getIsFetching(getState(), filter)) {
         return Promise.resolve();
     }
 
-    dispatch(actionRequestTodos(filter));
+    dispatch({
+        type: ':FETCH_TODOS_REQUEST',
+        filter
+    });
 
-    return api.fetchTodos(filter).then(response =>
-        dispatch(actionReceiveTodos(filter, response))
+    return api.fetchTodos(filter).then(
+        response => {
+            dispatch({
+                type: ':FETCH_TODOS_SUCCESS',
+                filter,
+                todos: response
+            });
+        },
+        error => {
+            dispatch({
+                type: ':FETCH_TODOS_FAILURE',
+                filter,
+                message: error.message || 'Something went wrong!'
+            });
+        }
     );
 };
 

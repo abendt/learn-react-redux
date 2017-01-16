@@ -17,7 +17,7 @@ const byId = (state = {}, action) => {
             const asMap = new Map(filteredList.map((todo) => [todo.id, todo]));
             return demapify(asMap);
 
-        case ':RECEIVE_TODOS':
+        case ':FETCH_TODOS_SUCCESS':
             const nextState = {...state};
             action.todos.forEach(todo => {
                 nextState[todo.id] = todo;
